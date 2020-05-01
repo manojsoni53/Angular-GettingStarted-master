@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IProduct } from './product';
 
 @Component({
     selector:'pm-product',
@@ -10,7 +11,7 @@ export class ProductListComponent{
     imageMargin:number=2;
     showImage:boolean =false;
     listFilter:string ='cart';
-    products:any[]=[
+    products:IProduct[]=[
         {
             "productId": 1,
             "productName": "Leaf Rake",
@@ -18,8 +19,8 @@ export class ProductListComponent{
             "releaseDate": "March 19, 2019",
             "description": "Leaf rake with 48-inch wooden handle.",
             "price": 19.95,
-            "starRating": 3.2,
-            "imageUrl": "assets/images/leaf_rake.png"
+            "starRating": 3.2,  //if I change the property name error reflect in browser but when you use Interface error will come same line in code we dont need to see even in browser
+            "imageUrl": "assets/images/leaf_rake.png" // we need to define all method declare in interface otherwise error will come
           },
           {
             "productId": 2,
