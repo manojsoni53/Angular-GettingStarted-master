@@ -93,4 +93,8 @@ export class ProductListComponent implements OnInit{
     ngOnInit(): void{
       console.log('In OnInit');
     }
+
+    onRatingclicked(message:string): void{
+      this.pageTitle='Product List  :  ' + message;
+    }
 }
