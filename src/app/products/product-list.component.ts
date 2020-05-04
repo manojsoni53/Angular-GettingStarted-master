@@ -77,7 +77,7 @@ export class ProductListComponent implements OnInit{
 
     constructor(){
       this.filteredProducts = this.products;
-      this.listFilter = 'cart';
+      this.listFilter = '';
     }
 
     performFilter(filterBy:string):IProduct[]{
@@ -92,5 +92,9 @@ export class ProductListComponent implements OnInit{
 
     ngOnInit(): void{
       console.log('In OnInit');
+    }
+
+    onRatingclicked(message:string): void{
+      this.pageTitle='Product List  :  ' + message;
     }
 }
