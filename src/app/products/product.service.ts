@@ -1,36 +1,39 @@
 import { Injectable } from '@angular/core';
 import { IProduct } from './product';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { Observable, throwError } from 'rxjs'
+import { catchError, tap } from 'rxjs/operators'
 
 @Injectable({
     providedIn:'root'
 })
 export class ProductService{
-//we have no properties define in this class, so we are not using this particular service to share data
-//we are using it to encapsulate the data access feature, by using this service provide the list of product
-//we take the responsibility for managin the data away from the individual component, that makes it
-//easier to modify or reuse the logic
-    getProduct(): IProduct[]{
-        return[
-            {
-                "productId": 8,
-                "productName": "Saw",
-                "productCode": "TBX-0022",
-                "releaseDate": "May 15, 2019",
-                "description": "15-inch steel blade hand saw",
-                "price": 11.55,
-                "starRating": 3.7,
-                "imageUrl": "assets/images/saw.png"
-              },
-              {
-                "productId": 10,
-                "productName": "Video Game Controller",
-                "productCode": "GMG-0042",
-                "releaseDate": "October 15, 2018",
-                "description": "Standard two-button video game controller",
-                "price": 35.95,
-                "starRating": 4.6,
-                "imageUrl": "assets/images/xbox-controller.png"
-              }
-        ]
+
+    private productUrl = 'api/products/products.json'
+    constructor(private http:HttpClient){
+
+    }
+
+    getProduct(): Observable<IProduct[]>{
+        return this.http.get<IProduct[]>(this.productUrl).pipe(
+            tap(data => console.log('All : '+JSON.stringify(data))),
+            catchError(this.handleError)
+        );
+    }
+
+    private handleError(err:HttpErrorResponse){
+        //in a real world app, we may send the server to some remote logging infrastructure
+        //instead of just logging it to the console
+        let errorMessage='';
+        if(err.error instanceof ErrorEvent){
+            //a client side or network error occured. handle it accordingly
+            errorMessage=`An error occured : ${err.error.message}`;
+        }else{
+            //the backend returned an unsuccessful response code.
+            //the response body may conatain clues as to what went wrong,
+            errorMessage=`Server return code: ${err.status}, error message is: ${err.message}`;
+        }
+        console.error(errorMessage);
+        return throwError(errorMessage);
     }
 }
